@@ -1,4 +1,4 @@
-package com.ryanoliveira.ecommerce_api;
+package com.ryanoliveira.ecommerce_api.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,11 +10,11 @@ import java.util.UUID;
 
 @Entity
 @Table (name = "Usuario")
-public class Usuario {
+public class Usuario extends BaseEntity {
 
     @Id
     @Column (name = "idUsuario", length = 36)
-    private String idUsuario;
+    private UUID idUsuario;
 
     @Column (name = "nome", length = 90, nullable = false)
     @NotBlank (message = "Esse campo é obrigatório")
@@ -33,15 +33,19 @@ public class Usuario {
     @NotBlank (message = "Esse campo é obrigatório")
     private LocalDate dataNasc;
 
+    @Column (name = "celular", length = 20, nullable = false)
+    @NotBlank (message = "Esse campo é obrigatório")
+    private String celular;
+
     public Usuario(){
-        this.idUsuario = UUID.randomUUID().toString();
+        this.idUsuario = UUID.randomUUID().toUUID();
     }
 
-    public String getNome() {
+    public UUID getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(UUID nome) {
         this.nome = nome;
     }
 
@@ -67,5 +71,13 @@ public class Usuario {
 
     public void setDataNasc(LocalDate dataNasc) {
         this.dataNasc = dataNasc;
+    }
+
+    public String getCelular(){
+        return celular;
+    }
+
+    public void setCelular(String Celular){
+        this.celular = celular;
     }
 }

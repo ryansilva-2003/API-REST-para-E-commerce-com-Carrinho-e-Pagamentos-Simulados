@@ -1,7 +1,6 @@
-package com.ryanoliveira.ecommerce_api;
+package com.ryanoliveira.ecommerce_api.model;
 
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,11 +1,11 @@
-package com.ryanoliveira.ecommerce_api;
+package com.ryanoliveira.ecommerce_api.model;
 
 import jakarta.persistence.*;
 
 
 @Entity
 @Table (name = "CarrinhoItem")
-public class CarrinhoItem {
+public class CarrinhoItem extends BaseEntity {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

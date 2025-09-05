@@ -1,23 +1,23 @@
-package com.ryanoliveira.ecommerce_api;
+package com.ryanoliveira.ecommerce_api.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
 @Table (name = "Produtos")
-public class Produto {
+public class Produto extends BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "idProduto")
-    private String idProduto;
+    private Long idProduto;
 
     @Column (name = "produtoNome", length = 90, nullable = false)
     @NotBlank (message = "Esse campo é obrigatório")
-    private String produtoNome;
+    private String Nome;
 
     @Column (name = "descricao", length = 200, nullable = false)
     @NotBlank (message = "Esse campo é obrigatório")
@@ -35,24 +35,21 @@ public class Produto {
     @NotBlank (message = "Esse campo é obrigatório")
     private String categoria;
 
-    public Produto(){
-        this.idProduto = UUID.randomUUID().toString();
-    }
 
-    public String getIdProduto() {
+    public Long getIdProduto() {
         return idProduto;
     }
 
-    public void setIdProduto(String idProduto) {
+    public void setIdProduto(Long idProduto) {
         this.idProduto = idProduto;
     }
 
     public String getProdutoNome() {
-        return produtoNome;
+        return Nome;
     }
 
     public void setProdutoNome(String produtoNome) {
-        this.produtoNome = produtoNome;
+        this.Nome = produtoNome;
     }
 
     public String getDescricao() {

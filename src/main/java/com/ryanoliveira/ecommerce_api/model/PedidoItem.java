@@ -1,4 +1,4 @@
-package com.ryanoliveira.ecommerce_api;
+package com.ryanoliveira.ecommerce_api.model;
 
 import jakarta.persistence.*;
 
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table (name = "PedidoItem")
-public class PedidoItem {
+public class PedidoItem extends BaseEntity {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
