@@ -1,6 +1,6 @@
 package com.ryanoliveira.ecommerce_api.controller;
 
-import com.ryanoliveira.ecommerce_api.dto.UsuarioRecordDto;
+import com.ryanoliveira.ecommerce_api.dto.UsuarioRequestDto;
 import com.ryanoliveira.ecommerce_api.model.Usuario;
 import com.ryanoliveira.ecommerce_api.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
     @PostMapping
-    public ResponseEntity<Usuario> salvar(@RequestBody @Valid UsuarioRecordDto usuarioRecordDto) {
+    public ResponseEntity<Usuario> salvar(@RequestBody @Valid UsuarioRequestDto usuarioRecordDto) {
         var usuario = new Usuario();
         BeanUtils.copyProperties(usuarioRecordDto, usuario);
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));

@@ -17,8 +17,8 @@ public class PedidoItem extends BaseEntity {
     @JoinColumn (name = "idProduto", nullable = false)
     private Produto produto;
 
-    @Column (name = "quantidadeP", nullable = false)
-    private Integer quantidadeP;
+    @Column (name = "quantidade", nullable = false)
+    private Integer quantidade;
 
     @Column (name = "precoUnitario", nullable = false)
     private BigDecimal precoUnitario;
@@ -43,12 +43,12 @@ public class PedidoItem extends BaseEntity {
         this.produto = produto;
     }
 
-    public Integer getQuantidadeP(){
-        return quantidadeP;
+    public Integer getQuantidade(){
+        return quantidade;
     }
 
-    public void setQuantidadeP(Integer quantidadeP){
-        this.quantidadeP = quantidadeP;
+    public void setQuantidade(Integer quantidade){
+        this.quantidade = quantidade;
     }
 
     public BigDecimal getPrecoUnitario(){

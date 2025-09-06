@@ -17,7 +17,7 @@ public class Produto extends BaseEntity {
 
     @Column (name = "produtoNome", length = 90, nullable = false)
     @NotBlank (message = "Esse campo é obrigatório")
-    private String Nome;
+    private String produtoNome;
 
     @Column (name = "descricao", length = 200, nullable = false)
     @NotBlank (message = "Esse campo é obrigatório")
@@ -35,6 +35,9 @@ public class Produto extends BaseEntity {
     @NotBlank (message = "Esse campo é obrigatório")
     private String categoria;
 
+    @NotBlank (message = "Esse campo é obrigatório")
+    private String imagem;
+
 
     public Long getIdProduto() {
         return idProduto;
@@ -45,11 +48,11 @@ public class Produto extends BaseEntity {
     }
 
     public String getProdutoNome() {
-        return Nome;
+        return produtoNome;
     }
 
     public void setProdutoNome(String produtoNome) {
-        this.Nome = produtoNome;
+        this.produtoNome = produtoNome;
     }
 
     public String getDescricao() {
@@ -76,5 +79,12 @@ public class Produto extends BaseEntity {
         this.estoque = estoque;
     }
 
+    public String getImagem(){
+        return imagem;
+    }
+
+    public void setImagem(String imagem){
+        this.imagem = imagem;
+    }
 
 }

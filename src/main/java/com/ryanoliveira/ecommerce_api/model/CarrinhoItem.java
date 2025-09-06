@@ -23,6 +23,7 @@ public class CarrinhoItem extends BaseEntity {
     @Column (name = "quantidade", nullable = false)
     private Integer quantidade;
 
+
     public Long getIdCarrinhoItem(){
         return idCarrinhoItem;
     }

@@ -37,39 +37,47 @@ public class Usuario extends BaseEntity {
     @NotBlank (message = "Esse campo é obrigatório")
     private String celular;
 
-    public Usuario(){
-        this.idUsuario = UUID.randomUUID().toUUID();
+    public Usuario() {
+        this.idUsuario = UUID.randomUUID();
     }
 
-    public UUID getNome() {
+    public UUID getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdProduto(UUID idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(UUID nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public String getEmail() {
+    public String getEmal() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email){
         this.email = email;
     }
 
-    public String getSenha() {
+    public String getSenha(){
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(String senha){
         this.senha = senha;
     }
 
-    public LocalDate getDataNasc() {
+    public LocalDate getDataNasc(){
         return dataNasc;
     }
 
-    public void setDataNasc(LocalDate dataNasc) {
+    public void setDataNasc(LocalDate dataNasc){
         this.dataNasc = dataNasc;
     }
 
@@ -77,7 +85,7 @@ public class Usuario extends BaseEntity {
         return celular;
     }
 
-    public void setCelular(String Celular){
+    public void setCelular(String celular){
         this.celular = celular;
     }
 }
