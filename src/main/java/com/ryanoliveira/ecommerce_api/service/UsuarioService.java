@@ -20,6 +20,22 @@ public class UsuarioService {
 
     @Transactional
     public Usuario save(Usuario usuario) {
+        if (usuarioRepository.existsByEmail(usuario.getEmal())){
+            throw new RuntimeException("Email ja cadastrado: " + usuario.getEmal());
+        }
+        return usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public Usuario atualizar(UUID id, Usuario usuarioAtualizado){
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado com ID: " + id));
+
+        usuario.setNome(usuarioAtualizado.getNome());
+        usuario.setEmail(usuarioAtualizado.getEmal());
+        usuario.setCelular(usuarioAtualizado.getCelular());
+        usuario.setSenha(usuarioAtualizado.getSenha());
+
         return usuarioRepository.save(usuario);
     }
 

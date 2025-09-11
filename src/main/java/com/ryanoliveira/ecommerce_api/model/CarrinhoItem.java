@@ -13,8 +13,8 @@ public class CarrinhoItem extends BaseEntity {
     private Long idCarrinhoItem;
 
     @ManyToOne
-    @JoinColumn (name = "idUsuario", nullable = false)
-    private Usuario usuario;
+    @JoinColumn (name = "idCarrinho", nullable = false)
+    private Carrinho carrinho;
 
     @ManyToOne
     @JoinColumn (name = "idProduto", nullable = false)
@@ -32,11 +32,11 @@ public class CarrinhoItem extends BaseEntity {
         this.idCarrinhoItem = idCarrinhoItem;
     }
 
-    public Usuario getUsuario(){
-        return usuario;
+    public Carrinho getCarrinho(){
+        return carrinho;
     }
-    public void setUsuario(Usuario usuario){
-        this.usuario = usuario;
+    public void setCarrinho(Carrinho carrinho){
+        this.carrinho = carrinho;
     }
 
     public Produto getProduto(){

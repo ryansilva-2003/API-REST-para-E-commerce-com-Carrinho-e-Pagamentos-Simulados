@@ -18,7 +18,24 @@ public class ProdutoService {
 
     @Transactional
     public Produto save(Produto produto) {
+        if (produtoRepository.existsByNome(produto.getProdutoNome())){
+            throw new RuntimeException("Produto já cadastrado: " + produto.getProdutoNome());
+        }
         return produtoRepository.save(produto);
+    }
+
+    @Transactional
+    public Produto atualizar(long id, Produto produtoAtualizado){
+        Produto produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com ID: " + id));
+
+        produto.setProdutoNome(produtoAtualizado.getProdutoNome());
+        produto.setDescricao(produtoAtualizado.getDescricao());
+        produto.setEstoque(produtoAtualizado.getEstoque());
+        produto.setPreco(produtoAtualizado.getPreco());
+
+        return produtoRepository.save(produto);
+
     }
 
     public List<Produto> listarTodos() {
