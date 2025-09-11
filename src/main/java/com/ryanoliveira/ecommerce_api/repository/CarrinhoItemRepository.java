@@ -12,7 +12,8 @@ import java.util.UUID;
 
 public interface CarrinhoItemRepository extends JpaRepository<CarrinhoItem, Long> {
     List<CarrinhoItem> findByUsuarioId(UUID idUsuario);
-    Optional<CarrinhoItem> findByCarrinhoAndProduto(Carrinho carrinho, Produto produto);
+    Optional<CarrinhoItem> findByCarrinhoAndProduto(    Carrinho carrinho, Produto produto);
+    List<CarrinhoItem> findByCarrinho(Carrinho carrinho);
 
-    void deleteByCarrinho(Carrinho carrinho);
+    void deleteByCarrinhondProduto_Id(Carrinho carrinho, Long produtoId);
 }

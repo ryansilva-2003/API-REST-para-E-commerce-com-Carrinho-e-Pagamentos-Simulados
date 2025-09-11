@@ -2,6 +2,8 @@ package com.ryanoliveira.ecommerce_api.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 
 @Entity
 @Table (name = "CarrinhoItem")
@@ -19,6 +21,9 @@ public class CarrinhoItem extends BaseEntity {
     @ManyToOne
     @JoinColumn (name = "idProduto", nullable = false)
     private Produto produto;
+
+    @Column (name = "precoUnitario", nullable = false)
+    private BigDecimal precoUnitario;
 
     @Column (name = "quantidade", nullable = false)
     private Integer quantidade;
@@ -55,4 +60,11 @@ public class CarrinhoItem extends BaseEntity {
         this.quantidade = quantidade;
     }
 
+    public BigDecimal getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setPrecoUnitario(BigDecimal precoUnitario) {
+        this.precoUnitario = precoUnitario;
+    }
 }

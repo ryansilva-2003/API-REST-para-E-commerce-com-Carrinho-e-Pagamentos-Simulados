@@ -17,12 +17,19 @@ import java.util.UUID;
 public class CarrinhoService {
 
     private final CarrinhoRepository carrinhoRepository;
-    private UsuarioRepository usuarioRepository;
-    private ProdutoRepository produtoRepository;
-    private CarrinhoItemRepository carrinhoItemRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final ProdutoRepository produtoRepository;
+    private final CarrinhoItemRepository carrinhoItemRepository;
 
-    public CarrinhoService(CarrinhoRepository carrinhoRepository) {
+    public CarrinhoService(CarrinhoRepository carrinhoRepository,
+                           UsuarioRepository usuarioRepository,
+                           ProdutoRepository produtoRepository,
+                           CarrinhoItemRepository carrinhoItemRepository) {
         this.carrinhoRepository = carrinhoRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.produtoRepository = produtoRepository;
+        this.carrinhoItemRepository = carrinhoItemRepository;
+
     }
 
     public Carrinho criarCarrinho(UUID idUsuario) {
@@ -45,11 +52,11 @@ public class CarrinhoService {
         Produto produto = produtoRepository.findById(idProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        CarrinhoItem = carrinhoItemRepository
+        CarrinhoItem item = carrinhoItemRepository
                 .findByCarrinhoAndProduto(carrinho, produto)
-                .orElse(new carrinhoItem());
+                .orElse(new CarrinhoItem());
 
-        if (item.getId() == null) { // só entra aqui se for um novo CarrinhoItem
+        if (item.getIdCarrinhoItem() == null) {
             item.setCarrinho(carrinho);
             item.setProduto(produto);
             item.setPrecoUnitario(produto.getPreco());
@@ -57,8 +64,17 @@ public class CarrinhoService {
         }
         item.setQuantidade(item.getQuantidade() + quantidade);
 
-        // 6. Salvar no banco
         return carrinhoItemRepository.save(item);
     }
+
+    @Transactional
+    public void removerItem(UUID idUsuario, Long idProduto){
+        Carrinho carrinho = carrinhoRepository.findByUsuario_idUsuario(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
+
+            carrinhoItemRepository.deleteByCarrinhoAndProduto_id(carrinho, idProduto);
+    }
+
+
 
 }
