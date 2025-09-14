@@ -72,7 +72,7 @@ public class CarrinhoService {
         Carrinho carrinho = carrinhoRepository.findByUsuario_idUsuario(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
 
-            carrinhoItemRepository.deleteByCarrinhoAndProduto_id(carrinho, idProduto);
+            carrinhoItemRepository.deleteByCarrinhoAndProduto_Id(carrinho, idProduto);
     }
 
 
