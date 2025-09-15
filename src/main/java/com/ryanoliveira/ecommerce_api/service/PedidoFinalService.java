@@ -1,6 +1,7 @@
 package com.ryanoliveira.ecommerce_api.service;
 
 import com.ryanoliveira.ecommerce_api.model.PedidoFinal;
+import com.ryanoliveira.ecommerce_api.model.StatusPedido;
 import com.ryanoliveira.ecommerce_api.repository.PedidoFinalRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,14 @@ public class PedidoFinalService {
 
     public Optional<PedidoFinal> buscarPorId(Long id){
         return pedidoFinalRepository.findById(id);
+    }
+
+    @Transactional
+    public PedidoFinal atualizarStatus (Long idPedidoFinal, StatusPedido novoStatus){
+        PedidoFinal pedidoFinal = pedidoFinalRepository.findById(idPedidoFinal)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado com id: " + idPedidoFinal));
+        pedidoFinal.setStatusPedido(novoStatus);
+        return pedidoFinalRepository.save(pedidoFinal);
     }
 
     @Transactional

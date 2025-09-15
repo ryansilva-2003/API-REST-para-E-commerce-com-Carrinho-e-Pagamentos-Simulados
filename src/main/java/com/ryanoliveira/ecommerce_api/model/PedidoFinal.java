@@ -23,7 +23,7 @@ public class PedidoFinal {
 
     @Enumerated(EnumType.STRING)
     @Column (name = "status", nullable = false)
-    private StatusPedido status;
+    private StatusPedido statusPedido;
 
     @Column (name = "total", nullable = false)
     private BigDecimal total;
@@ -52,12 +52,12 @@ public class PedidoFinal {
         this.dataCriacao = dataCriacao;
     }
 
-    public StatusPedido getStatus(){
-        return status;
+    public StatusPedido getStatusPedido(){
+        return statusPedido;
     }
 
-    public void setStatus (StatusPedido status){
-        this.status = status;
+    public void setStatusPedido (StatusPedido statusPedido){
+        this.statusPedido = statusPedido;
     }
 
     public BigDecimal getTotal(){

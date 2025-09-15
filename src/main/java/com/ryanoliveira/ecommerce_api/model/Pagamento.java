@@ -1,6 +1,8 @@
 package com.ryanoliveira.ecommerce_api.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,18 +20,19 @@ public class Pagamento extends BaseEntity{
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
-    private Double valor;
+    private BigDecimal total;
 
     private String formaPagamento;
 
     @Enumerated(EnumType.STRING)
-    private String statusPagamento;
+    private StatusPagamento statusPagamento;
 
     private LocalDateTime dataPagamento;
 
+    private Long idPedidoFinal;
+
     public Pagamento() {
         this.dataPagamento = LocalDateTime.now();
-        this.statusPagamento = "PENDENTE";
     }
 
     public Pagamento(UUID idPagamento) {
@@ -52,12 +55,12 @@ public class Pagamento extends BaseEntity{
         this.usuario = usuario;
     }
 
-    public Double getValor() {
-        return valor;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setValor(Double valor) {
-        this.valor = valor;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     public String getFormaPagamento() {
@@ -68,11 +71,11 @@ public class Pagamento extends BaseEntity{
         this.formaPagamento = formaPagamento;
     }
 
-    public String getStatusPagamento() {
+    public StatusPagamento getStatusPagamento() {
         return statusPagamento;
     }
 
-    public void setStatusPagamento(String statusPagamento) {
+    public void setStatusPagamento(StatusPagamento statusPagamento) {
         this.statusPagamento = statusPagamento;
     }
 
@@ -82,5 +85,13 @@ public class Pagamento extends BaseEntity{
 
     public void setDataPagamento(LocalDateTime dataPagamento) {
         this.dataPagamento = dataPagamento;
+    }
+
+    public Long getIdPedidoFinal(){
+        return idPedidoFinal;
+    }
+
+    public void setIdPedidoFinal(Long idPedidoFinal){
+        this.idPedidoFinal = idPedidoFinal;
     }
 }
