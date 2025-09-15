@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -48,24 +49,28 @@ public class CarrinhoService {
     }
 
     @Transactional
-    public CarrinhoItem atualizarOuAdicionarItem(UUID idUsuario, Long idProduto, int quantidade) {
+    public CarrinhoItem atualizarItem(UUID idUsuario, Long idProduto, int quantidade) {
         Carrinho carrinho = criarCarrinho(idUsuario);
         Produto produto = produtoRepository.findById(idProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
         CarrinhoItem item = carrinhoItemRepository.findByCarrinhoAndProduto(carrinho, produto)
-                .orElseGet(() -> {
-                    CarrinhoItem novoItem = new CarrinhoItem();
-                    novoItem.setCarrinho(carrinho);
-                    novoItem.setProduto(produto);
-                    novoItem.setQuantidade(0);
-                    novoItem.setPrecoUnitario(produto.getPreco());
-                    return novoItem;
-                });
-        item.setQuantidade(item.getQuantidade() + quantidade);
+                .orElseThrow(() -> new RuntimeException("Item não existe no carrinho"));
 
+        item.setQuantidade(quantidade);
         return carrinhoItemRepository.save(item);
     }
+
+    @Transactional
+    public CarrinhoItem adicionarItem(UUID idUsuario, Long idProduto, int quantidade) {
+        Carrinho carrinho = criarCarrinho(idUsuario);
+        Produto produto = produtoRepository.findById(idProduto)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        Optional<CarrinhoItem> existente = carrinhoItemRepository.findByCarrinhoAndProduto(carrinho, produto);
+        if (existente.isPresent()) {
+            throw new RuntimeException("Item já existe no carrinho");
+        }
 
     @Transactional
     public void removerItem(UUID idUsuario, Long idProduto) {
@@ -74,6 +79,7 @@ public class CarrinhoService {
 
         carrinhoItemRepository.deleteByCarrinhoAndProduto_Id(carrinho, idProduto);
     }
+
 
     public List<CarrinhoItem> listarItens (UUID idUsuario){
         Carrinho carrinho = carrinhoRepository.findByUsuario_idUsuario(idUsuario)
@@ -92,6 +98,7 @@ public class CarrinhoService {
         }
         return total;
     }
+
 
 
 }

@@ -24,7 +24,7 @@ public class PagamentoService {
     }
 
     @Transactional
-    public Pagamento processarPagamento(Long idPedidoFinal, String formaPagamento, BigDecimal total, StatusPagamento novoStatusPagamento, StatusPedido novoStatusPedido ) {
+    public Pagamento processarPagamento(Long idPedidoFinal, String formaPagamento, BigDecimal total) {
         Pagamento pagamento = new Pagamento();
         pagamento.setIdPagamento(UUID.randomUUID());
         pagamento.setIdPedidoFinal(idPedidoFinal);
@@ -50,18 +50,29 @@ public class PagamentoService {
     }
 
     @Transactional
-    public Pagamento atualizarStatus(UUID id, StatusPagamento novoStatus) {
-        Pagamento pagamento = pagamentoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado com ID: " + id));
-        pagamento.setStatusPagamento(novoStatus);
-        return pagamentoRepository.save(pagamento);
+    public Pagamento atualizarStatus(UUID idPagamento, StatusPagamento novoStatusPagamento) {
+        Pagamento pagamento = pagamentoRepository.findById(idPagamento)
+                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado com ID: " + idPagamento));
+        pagamento.setStatusPagamento(novoStatusPagamento);
+        pagamentoRepository.save(pagamento);
+
+        StatusPedido statusPedidoCorrespondente = switch (novoStatusPagamento) {
+            case PENDENTE -> StatusPedido.AGUARDANDO_PAGAMENTO;
+            case APROVADO -> StatusPedido.PAGO;
+            case RECUSADO -> StatusPedido.CANCELADO;
+            case PROCESSANDO -> StatusPedido.EM_PREPARACAO;
+            case CANCELADO -> StatusPedido.ESTORNO_PAGAMENTO;
+        };
+        pedidoFinalService.atualizarStatus(pagamento.getIdPedidoFinal(), statusPedidoCorrespondente);
+
+        return pagamento;
     }
 
     @Transactional
-    public void deletar(UUID id) {
-        if (!pagamentoRepository.existsById(id)) {
-            throw new RuntimeException("Pagamento não encontrado com ID: " + id);
+    public void deletar(UUID idPagamento) {
+        if (!pagamentoRepository.existsById(idPagamento)) {
+            throw new RuntimeException("Pagamento não encontrado com ID: " + idPagamento);
         }
-        pagamentoRepository.deleteById(id);
+        pagamentoRepository.deleteById(idPagamento);
     }
 }

@@ -1,11 +1,13 @@
 package com.ryanoliveira.ecommerce_api.service;
 
 import com.ryanoliveira.ecommerce_api.model.Produto;
+import com.ryanoliveira.ecommerce_api.model.Usuario;
 import com.ryanoliveira.ecommerce_api.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProdutoService {
@@ -18,8 +20,8 @@ public class ProdutoService {
 
     @Transactional
     public Produto save(Produto produto) {
-        if (produtoRepository.existsByNome(produto.getProdutoNome())){
-            throw new RuntimeException("Produto já cadastrado: " + produto.getProdutoNome());
+        if (produtoRepository.existsByNome(produto.getNomeProduto())){
+            throw new RuntimeException("Produto já cadastrado: " + produto.getNomeProduto());
         }
         return produtoRepository.save(produto);
     }
@@ -29,7 +31,7 @@ public class ProdutoService {
         Produto produto = produtoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado com ID: " + id));
 
-        produto.setProdutoNome(produtoAtualizado.getProdutoNome());
+        produto.setNomeProduto(produtoAtualizado.getNomeProduto());
         produto.setDescricao(produtoAtualizado.getDescricao());
         produto.setEstoque(produtoAtualizado.getEstoque());
         produto.setPreco(produtoAtualizado.getPreco());
@@ -42,11 +44,12 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
-    public Optional<Produto> buscarPorId(Long id) {
-        return produtoRepository.findById(id);
+    public Produto findById(Long idProduto) {
+        return produtoRepository.findById(idProduto)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com ID: " + idProduto));
     }
 
-    public Optional<Produto> buscarPorNome(String nome) {
+    public Optional<Produto> findByNome(String nome) {
         return Optional.ofNullable(produtoRepository.findByNome(nome));
     }
 

@@ -20,31 +20,32 @@ public class UsuarioService {
 
     @Transactional
     public Usuario save(Usuario usuario) {
-        if (usuarioRepository.existsByEmail(usuario.getEmal())){
-            throw new RuntimeException("Email ja cadastrado: " + usuario.getEmal());
+        if (usuarioRepository.existsByEmail(usuario.getEmail())){
+            throw new RuntimeException("Email ja cadastrado: " + usuario.getEmail());
         }
         return usuarioRepository.save(usuario);
     }
 
     @Transactional
-    public Usuario atualizar(UUID id, Usuario usuarioAtualizado){
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario não encontrado com ID: " + id));
+    public Usuario atualizar(UUID idUsuario, Usuario usuarioAtualizado){
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado com ID: " + idUsuario));
 
         usuario.setNome(usuarioAtualizado.getNome());
-        usuario.setEmail(usuarioAtualizado.getEmal());
+        usuario.setEmail(usuarioAtualizado.getEmail());
         usuario.setCelular(usuarioAtualizado.getCelular());
         usuario.setSenha(usuarioAtualizado.getSenha());
 
-        return usuarioRepository.save(usuario);
+        return usuario;
     }
 
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> buscarPorId(UUID id) {
-        return usuarioRepository.findById(id);
+    public Usuario findById(UUID idUsuario) {
+        return usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + idUsuario));
     }
 
     public Optional<Usuario> buscarPorNome(String nome) {
@@ -58,4 +59,5 @@ public class UsuarioService {
         }
         usuarioRepository.deleteById(id);
     }
+
 }

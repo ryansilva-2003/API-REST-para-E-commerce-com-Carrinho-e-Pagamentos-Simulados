@@ -7,6 +7,6 @@ public record UsuarioResponseDto(
         UUID idUsuario,
         String nome,
         String email,
-        LocalDate dataNasc,
-        String celular
-) {}
+        String celular,
+        LocalDate dataNasc
+){}

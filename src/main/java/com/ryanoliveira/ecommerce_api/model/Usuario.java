@@ -57,7 +57,7 @@ public class Usuario extends BaseEntity {
         this.nome = nome;
     }
 
-    public String getEmal() {
+    public String getEmail() {
         return email;
     }
 
