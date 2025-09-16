@@ -39,13 +39,12 @@ public class CarrinhoService {
         Usuario usuario = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado: " + idUsuario));
 
-        Carrinho carrinhoExistente = carrinhoRepository.findByUsuario_idUsuario(idUsuario).orElse(null);
-        if (carrinhoExistente != null) {
-            return carrinhoExistente;
-        }
-        Carrinho carrinho = new Carrinho();
-        carrinho.setUsuario(usuario);
-        return carrinhoRepository.save(carrinho);
+        return carrinhoRepository.findByUsuario_idUsuario(idUsuario)
+                .orElseGet(() -> {
+                    Carrinho carrinho = new Carrinho();
+                    carrinho.setUsuario(usuario);
+                    return carrinhoRepository.save(carrinho);
+                });
     }
 
     @Transactional
@@ -71,6 +70,14 @@ public class CarrinhoService {
         if (existente.isPresent()) {
             throw new RuntimeException("Item já existe no carrinho");
         }
+
+        CarrinhoItem item = new CarrinhoItem();
+        item.setCarrinho(carrinho);
+        item.setProduto(produto);
+        item.setQuantidade(quantidade);
+
+        return carrinhoItemRepository.save(item);
+    }
 
     @Transactional
     public void removerItem(UUID idUsuario, Long idProduto) {
@@ -98,7 +105,4 @@ public class CarrinhoService {
         }
         return total;
     }
-
-
-
 }
