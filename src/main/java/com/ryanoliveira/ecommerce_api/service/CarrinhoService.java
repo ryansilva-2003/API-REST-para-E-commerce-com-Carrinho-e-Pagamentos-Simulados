@@ -105,4 +105,12 @@ public class CarrinhoService {
         }
         return total;
     }
+
+    @Transactional
+    public void limparCarrinho(UUID idUsuario){
+        Carrinho carrinho = carrinhoRepository.findByUsuario_idUsuario(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
+        carrinhoItemRepository.deleteAllByCarrinho(carrinho);
+    }
+
 }

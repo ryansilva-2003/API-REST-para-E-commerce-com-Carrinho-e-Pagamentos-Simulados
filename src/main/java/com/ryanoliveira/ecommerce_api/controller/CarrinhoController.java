@@ -75,4 +75,10 @@ public class CarrinhoController {
         BigDecimal total = carrinhoService.calcularTotal(idUsuario);
         return ResponseEntity.ok(total.toString());
     }
+
+    @DeleteMapping("/{idUsuario}/itens")
+    public ResponseEntity<Void> limparCarrinho(@PathVariable UUID idUsuario){
+        carrinhoService.limparCarrinho(idUsuario);
+        return ResponseEntity.noContent().build();
+    }
 }
