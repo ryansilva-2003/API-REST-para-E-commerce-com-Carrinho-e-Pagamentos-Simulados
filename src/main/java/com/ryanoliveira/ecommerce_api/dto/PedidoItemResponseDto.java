@@ -6,5 +6,6 @@ public record PedidoItemResponseDto(
         Long idPedidoItem,
         Long idProduto,
         Integer quantidade,
-        BigDecimal precoUnitario
+        BigDecimal precoUnitario,
+        BigDecimal subtotal
 ) {}

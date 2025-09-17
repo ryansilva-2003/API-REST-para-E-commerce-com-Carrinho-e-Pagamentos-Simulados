@@ -3,7 +3,7 @@ package com.ryanoliveira.ecommerce_api.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table (name = "PedidoFinal")
@@ -19,7 +19,7 @@ public class PedidoFinal {
     private Produto produto;
 
     @Column (name = "dataCriacao", nullable = false)
-    private LocalDate dataCriacao;
+    private LocalDateTime dataCriacao;
 
     @Enumerated(EnumType.STRING)
     @Column (name = "status", nullable = false)
@@ -44,11 +44,11 @@ public class PedidoFinal {
         this.produto = produto;
     }
 
-    public LocalDate getDataCriacao(){
+    public LocalDateTime getDataCriacao(){
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao){
+    public void setDataCriacao(LocalDateTime dataCriacao){
         this.dataCriacao = dataCriacao;
     }
 
