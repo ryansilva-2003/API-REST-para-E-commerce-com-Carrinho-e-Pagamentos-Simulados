@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 public record PedidoFinalResponseDto(
+        Long Produto,
         UUID idUsuario,
-        Long idProduto,
         List<PedidoItemResponseDto> itens,
         BigDecimal total,
         StatusPedido statusPedido,

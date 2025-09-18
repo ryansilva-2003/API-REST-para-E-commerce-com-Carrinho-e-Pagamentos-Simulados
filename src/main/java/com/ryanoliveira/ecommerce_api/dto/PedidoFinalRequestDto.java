@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record PedidoFinalRequestDto(
         @NotNull
-        UUID idUsuario,
+        UUID Usuario,
         @NotNull
         List<PedidoItemRequestDto> itens
 ) {}

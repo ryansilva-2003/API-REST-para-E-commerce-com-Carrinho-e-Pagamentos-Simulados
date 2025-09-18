@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table (name = "PedidoFinal")
@@ -15,8 +16,15 @@ public class PedidoFinal {
     private Long idPedidoFinal;
 
     @ManyToOne
-    @JoinColumn (name = "idUsuario", nullable = false)
+    @JoinColumn (name = "idProduto", nullable = false)
     private Produto produto;
+
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
+
+    @OneToMany(mappedBy = "pedidoFinal", cascade = CascadeType.ALL)
+    private List<PedidoItem> itens;
 
     @Column (name = "dataCriacao", nullable = false)
     private LocalDateTime dataCriacao;
@@ -44,8 +52,24 @@ public class PedidoFinal {
         this.produto = produto;
     }
 
+    public Usuario getUsuario(){
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario){
+        this.usuario = usuario;
+    }
+
     public LocalDateTime getDataCriacao(){
         return dataCriacao;
+    }
+
+    public List<PedidoItem> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<PedidoItem> itens) {
+        this.itens = itens;
     }
 
     public void setDataCriacao(LocalDateTime dataCriacao){

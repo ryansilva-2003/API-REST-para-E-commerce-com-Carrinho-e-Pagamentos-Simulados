@@ -26,7 +26,7 @@ public class PedidoFinalService {
         return pedidoFinalRepository.findAll();
     }
 
-    public Optional<PedidoFinal> buscarPorId(Long id){
+    public Optional<PedidoFinal> findById(Long id){
         return pedidoFinalRepository.findById(id);
     }
 
