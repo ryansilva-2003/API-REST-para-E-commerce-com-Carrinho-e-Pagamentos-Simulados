@@ -4,13 +4,14 @@ import com.ryanoliveira.ecommerce_api.dto.PedidoFinalRequestDto;
 import com.ryanoliveira.ecommerce_api.dto.PedidoFinalResponseDto;
 import com.ryanoliveira.ecommerce_api.dto.PedidoItemResponseDto;
 import com.ryanoliveira.ecommerce_api.model.PedidoFinal;
+import com.ryanoliveira.ecommerce_api.model.PedidoItem;
 import com.ryanoliveira.ecommerce_api.model.StatusPedido;
 import com.ryanoliveira.ecommerce_api.service.PedidoFinalService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,15 +28,23 @@ public class PedidoFinalController {
     @PostMapping
     public ResponseEntity<PedidoFinalResponseDto> criarPedido(@RequestBody @Valid PedidoFinalRequestDto pedidoFinalRequestDto) {
         PedidoFinal pedido = new PedidoFinal();
-        pedido.setUsuario(PedidoFinalRequestDto.Usuario());
-        pedido.setItens(PedidoFinalRequestDto.itens());
+        pedido.setUsuario(pedidoFinalRequestDto.usuario());
+        List<PedidoItem> itens = (List<PedidoItem>) pedidoFinalRequestDto.itens().stream();
 
         PedidoFinal salvo = pedidoFinalService.save(pedido);
 
         PedidoFinalResponseDto dto = new PedidoFinalResponseDto(
                 salvo.getIdPedidoFinal(),
-                salvo.getUsuario(),
-                salvo.getItens(),
+                salvo.getUsuario().getIdUsuario(),
+                salvo.getItens().stream()
+                        .map(item -> new PedidoItemResponseDto(
+                                item.getIdPedidoItem(),
+                                item.getProduto().getIdProduto(),
+                                item.getQuantidade(),
+                                item.getPrecoUnitario(),
+                                item.getPrecoUnitario().multiply(BigDecimal.valueOf(item.getQuantidade()))
+                        ))
+                        .toList(),
                 salvo.getTotal(),
                 salvo.getStatusPedido(),
                 salvo.getDataCriacao()
@@ -85,7 +94,7 @@ public class PedidoFinalController {
                 .collect(Collectors.toList());
 
         return new PedidoFinalResponseDto(
-                pedido.getPedido(),
+                pedido.getIdPedidoFinal(),
                 pedido.getUsuario().getIdUsuario(),
                 itensDto,
                 pedido.getTotal(),

@@ -1,12 +1,13 @@
 package com.ryanoliveira.ecommerce_api.dto;
 
+import com.ryanoliveira.ecommerce_api.model.Usuario;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
-import java.util.UUID;
+
 
 public record PedidoFinalRequestDto(
         @NotNull
-        UUID Usuario,
+        Usuario usuario,
         @NotNull
         List<PedidoItemRequestDto> itens
 ) {}
